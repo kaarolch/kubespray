@@ -18,11 +18,7 @@ mv -n pypy-$PYPY_VERSION-linux64 pypy
 
 ## library fixup
 mkdir -p pypy/lib
-if [ -f /lib64/libncurses.so.5.9 ]; then
-  ln -snf /lib64/libncurses.so.5.9 $BINDIR/pypy/lib/libtinfo.so.5
-elif [ -f /lib64/libncurses.so.6.1 ]; then
-  ln -snf /lib64/libncurses.so.6.1 $BINDIR/pypy/lib/libtinfo.so.5
-fi
+ln -snf $(ls /lib64/* | grep "libncurses.so.[0-9]\+.\?[0-9]\?" | tail -1) $BINDIR/pypy/lib/libtinfo.so.5
 
 cat > $BINDIR/python <<EOF
 #!/bin/bash

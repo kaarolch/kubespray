@@ -15,7 +15,7 @@
 
 - name: Bootstrap | Run bootstrap.sh
   script: bootstrap.sh
-  when: need_bootstrap.rc != 0
+  #when: need_bootstrap.rc != 0
 
 - set_fact:
     ansible_python_interpreter: "{{ bin_dir }}/python"
@@ -56,12 +56,12 @@
     mode: 0755
   when: need_pip.rc != 0
 
-- name: Install required python modules
-  pip:
-    name: "{{ item }}"
-  with_items: "{{pip_python_coreos_modules}}"
-  environment:
-    PATH: "{{ ansible_env.PATH }}:{{ bin_dir }}"
+# - name: Install required python modules
+#   pip:
+#     name: "{{ item }}"
+#   with_items: "{{pip_python_coreos_modules}}"
+#   environment:
+#     PATH: "{{ ansible_env.PATH }}:{{ bin_dir }}"
 
 - name: Bootstrap | Disable auto-upgrade
   shell: "systemctl stop locksmithd.service && systemctl mask --now locksmithd.service"
