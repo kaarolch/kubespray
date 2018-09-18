@@ -126,6 +126,12 @@ Vagrant.configure("2") do |config|
       }
 
       config.vm.network :private_network, ip: ip
+      
+      # workaround for Vagrant 1.9.1 and centos vm
+      # https://github.com/hashicorp/vagrant/issues/8096
+      if Vagrant::VERSION == "1.9.1" && $os == "centos"
+        config.vm.provision "shell", inline: "service network restart", run: "always"
+      end
 
       # workaround for Vagrant 1.9.1 and centos vm
       # https://github.com/hashicorp/vagrant/issues/8096
